@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار السلامة البيولوجية المهنية - المحاضرة 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .header h3 {
+            color: #888;
+            font-size: 1em;
+            font-weight: normal;
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .name-input-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .name-input-box h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .name-input-box input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .name-input-box input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .results-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .results-box h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .results-box .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .results-box .percentage {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .results-box .message {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .leaderboard {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .leaderboard h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: right;
+            font-size: 1.1em;
+        }
+
+        .leaderboard-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .rank-medal {
+            font-size: 1.5em;
+            margin-left: 10px;
+        }
+
+        .score-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-right: 55px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover:not(.disabled) {
+            background: #f8f9ff;
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .option.selected {
+            background: #e8eeff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .option-label {
+            font-weight: bold;
+            color: #666;
+            min-width: 25px;
+        }
+
+        .option-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .explanation {
+            margin: 20px 0 0 55px;
+            padding: 15px;
+            background: #e8f4fd;
+            border-right: 4px solid #2196F3;
+            border-radius: 8px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .explanation strong {
+            color: #2196F3;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .header h2 {
+                font-size: 1em;
+            }
+
+            .question-header {
+                flex-wrap: wrap;
+            }
+
+            .options {
+                margin-right: 0;
+            }
+
+            .explanation {
+                margin-right: 0;
+            }
+
+            .leaderboard-table {
+                font-size: 0.9em;
+            }
+
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 اختبار السلامة البيولوجية المهنية</h1>
+            <h2>Occupational Biosafety Quiz - Lecture 2</h2>
+            <h3>قسم التحليلات - الفصل الأول 2025-2026</h3>
+            <div class="instructions" id="instructions">
+                <p>📝 أدخل اسمك وأجب على جميع الأسئلة ثم اضغط على "عرض النتائج"</p>
+            </div>
+        </div>
+
+        <div id="nameInputBox" class="name-input-box">
+            <h3>👤 أدخل اسمك للبدء</h3>
+            <input type="text" id="studentName" placeholder="اكتب اسمك هنا..." maxlength="50">
+            <br>
+            <button class="btn" onclick="startQuiz()">ابدأ الاختبار</button>
+        </div>
+
+        <div id="leaderboard" class="leaderboard hidden">
+            <h3><span>🏆</span> لوحة الصدارة</h3>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>الترتيب</th>
+                        <th>الاسم</th>
+                        <th>الدرجة</th>
+                        <th>النسبة المئوية</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="resultsBox" class="results-box hidden">
+            <h3>🎯 النتيجة النهائية</h3>
+            <div class="score" id="scoreDisplay"></div>
+            <div class="percentage" id="percentageDisplay"></div>
+            <div class="message" id="messageDisplay"></div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="button-container">
+            <button id="submitBtn" class="btn btn-success hidden" onclick="showResults()">
+                ✓ عرض النتائج
+            </button>
+            <button id="resetBtn" class="btn hidden" onclick="resetQuiz()">
+                🔄 إعادة الاختبار
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "What is Biosafety?",
+                options: [
+                    "A set of principles to protect only workers from biological hazards",
+                    "A set of principles, practices, and procedures designed to protect human health and the environment from risks associated with hazardous biological agents",
+                    "Rules for handling only chemical substances",
+                    "Guidelines for industrial safety only"
+                ],
+                correct: 1,
+                explanation: "السلامة البيولوجية هي مجموعة من المبادئ والممارسات والإجراءات المصممة لحماية صحة الإنسان والبيئة من المخاطر المرتبطة بالتعامل مع الكائنات الحية الدقيقة الخطرة"
+            },
+            {
+                id: 2,
+                question: "Which of the following is NOT a principle of Biosafety?",
+                options: [
+                    "Identifying biological hazards",
+                    "Implementing safe work practices",
+                    "Ignoring waste disposal procedures",
+                    "Controlling the laboratory environment"
+                ],
+                correct: 2,
+                explanation: "تجاهل إجراءات التخلص من النفايات ليس من مبادئ السلامة البيولوجية، بل التخلص الآمن من النفايات هو أحد المبادئ الأساسية"
+            },
+            {
+                id: 3,
+                question: "What does PPE stand for?",
+                options: [
+                    "Public Protection Equipment",
+                    "Personal Protective Equipment",
+                    "Professional Prevention Equipment",
+                    "Primary Protection Elements"
+                ],
+                correct: 1,
+                explanation: "PPE تعني معدات الحماية الشخصية (Personal Protective Equipment) وتشمل الأقنعة والقفازات وغيرها"
+            },
+            {
+                id: 4,
+                question: "What are occupational diseases?",
+                options: [
+                    "Diseases that occur randomly",
+                    "Genetic diseases only",
+                    "Diseases that occur because of continuous or repeated exposure to environmental or occupational factors in the workplace",
+                    "Only infectious diseases"
+                ],
+                correct: 2,
+                explanation: "الأمراض المهنية هي التي تحدث نتيجة التعرض المستمر أو المتكرر لعوامل بيئية أو مهنية في مكان العمل"
+            },
+            {
+                id: 5,
+                question: "Chemical poisoning occurs when:",
+                options: [
+                    "A person eats contaminated food",
+                    "A person inhales toxic fumes or industrial gases",
+                    "A person drinks contaminated water",
+                    "A person touches cold surfaces"
+                ],
+                correct: 1,
+                explanation: "التسمم الكيميائي يحدث عندما يستنشق الشخص أبخرة سامة أو غازات صناعية مما يؤدي إلى تأثيرات ضارة على الجهاز التنفسي"
+            },
+            {
+                id: 6,
+                question: "Occupational asthma results from:",
+                options: [
+                    "Genetic factors only",
+                    "Continuous exposure to chemicals or dust",
+                    "Eating unhealthy food",
+                    "Lack of exercise"
+                ],
+                correct: 1,
+                explanation: "الربو المهني ينتج من التعرض المستمر للمواد الكيميائية أو الغبار في بيئة العمل"
+            },
+            {
+                id: 7,
+                question: "Which of the following is an example of skin occupational diseases?",
+                options: [
+                    "Occupational asthma",
+                    "Occupational eczema",
+                    "Chronic bronchitis",
+                    "Hearing loss"
+                ],
+                correct: 1,
+                explanation: "الإكزيما المهنية هي من أمراض الجلد المهنية وتنجم عن التعرض للمواد الكيميائية أو المنظفات"
+            },
+            {
+                id: 8,
+                question: "Occupational hearing loss can result from:",
+                options: [
+                    "Exposure to bright lights",
+                    "Exposure to loud noise for a long time",
+                    "Working in cold environments",
+                    "Sitting for long periods"
+                ],
+                correct: 1,
+                explanation: "فقدان السمع المهني ينجم عن التعرض لفترة طويلة للضوضاء العالية في مكان العمل مثل الآلات والمعدات الصاخبة"
+            },
+            {
+                id: 9,
+                question: "Long-term workplace exposure to benzene can cause:",
+                options: [
+                    "Skin diseases only",
+                    "Damage to bone marrow leading to blood cancers",
+                    "Hearing loss",
+                    "Vision problems"
+                ],
+                correct: 1,
+                explanation: "التعرض طويل الأمد في مكان العمل للبنزين يمكن أن يسبب ضررًا لنخاع العظم مما يؤدي إلى السرطانات الدموية"
+            },
+            {
+                id: 10,
+                question: "Asbestos exposure is strongly linked to:",
+                options: [
+                    "Diabetes",
+                    "Mesothelioma and lung cancer",
+                    "Heart diseases",
+                    "Kidney failure"
+                ],
+                correct: 1,
+                explanation: "يرتبط التعرض للأسبستوس بقوة بورم الظهارة المتوسطة في الرئة أو البطن ويزيد من خطر الإصابة بسرطان الرئة"
+            },
+            {
+                id: 11,
+                question: "What does IARC stand for?",
+                options: [
+                    "International Agency for Research on Cancer",
+                    "International Association for Respiratory Care",
+                    "Industrial Agency for Risk Control",
+                    "International Alliance for Radiation Control"
+                ],
+                correct: 0,
+                explanation: "IARC تعني الوكالة الدولية لأبحاث السرطان (International Agency for Research on Cancer)"
+            },
+            {
+                id: 12,
+                question: "Occupational depression can result from:",
+                options: [
+                    "Working in well-ventilated areas",
+                    "A high-pressure work environment or continuous work-related stress",
+                    "Using protective equipment",
+                    "Taking regular breaks"
+                ],
+                correct: 1,
+                explanation: "الاكتئاب المهني ينجم عن بيئة عمل عالية الضغط أو الإجهاد المرتبط بالعمل المستمر مما يؤثر على الصحة العقلية والجسدية"
+            },
+            {
+                id: 13,
+                question: "Which of the following is a preventive measure for occupational diseases?",
+                options: [
+                    "Increasing working hours",
+                    "Improving ventilation in workplaces",
+                    "Removing all safety equipment",
+                    "Ignoring training programs"
+                ],
+                correct: 1,
+                explanation: "تحسين التهوية في أماكن العمل هو أحد تدابير الوقاية المهمة لتجنب الأمراض المهنية"
+            },
+            {
+                id: 14,
+                question: "The main objective of Biosafety is to:",
+                options: [
+                    "Increase production at any cost",
+                    "Reduce exposure to hazardous substances and ensure a safe working environment",
+                    "Replace all workers with machines",
+                    "Eliminate all biological materials from workplaces"
+                ],
+                correct: 1,
+                explanation: "الهدف من السلامة البيولوجية هو تقليل التعرض للمواد الخطرة وضمان بيئة عمل آمنة ومنع انتشار الأمراض"
+            },
+            {
+                id: 15,
+                question: "Chronic bronchitis is:",
+                options: [
+                    "A short-term infection",
+                    "A long-term inflammation of the airways from repeated exposure to dust, fumes, or chemical irritants",
+                    "A genetic disorder",
+                    "A viral disease"
+                ],
+                correct: 1,
+                explanation: "التهاب الشعب الهوائية المزمن هو التهاب طويل الأجل في مجاري التنفس، غالبًا ما ينتج من التعرض المتكرر للغبار أو الأبخرة"
+            }
+        ];
+
+        let answers = {};
+        let showingResults = false;
+        let studentName = '';
+        let results = [];
+
+        function loadResults() {
+            const stored = localStorage.getItem('biosafety_quiz_results');
+            if (stored) {
+                try {
+                    results = JSON.parse(stored);
+                } catch (e) {
+                    results = [];
+                }
+            }
+        }
+
+        function saveResults() {
+            localStorage.setItem('biosafety_quiz_results', JSON.stringify(results));
+        }
+
+        function startQuiz() {
+            const nameInput = document.getElementById('studentName');
+            studentName = nameInput.value.trim();
+            
+            if (!studentName) {
+                alert('الرجاء إدخال اسمك للبدء');
+                return;
+            }
+
+            document.getElementById('nameInputBox').classList.add('hidden');
+            document.getElementById('submitBtn').classList.remove('hidden');
+            renderQuestions();
+            loadLeaderboard();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `question-${q.id}`;
+
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHTML += `
+                        <div class="option" onclick="selectAnswer(${q.id}, ${optIndex})" id="option-${q.id}-${optIndex}">
+                            <span class="option-label">${String.fromCharCode(65 + optIndex)}.</span>
+                            <span class="option-text">${option}</span>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${q.question}</div>
+                        <div class="status-icon" id="status-${q.id}"></div>
+                    </div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                    <div class="explanation hidden" id="explanation-${q.id}">
+                        <strong>الشرح:</strong> ${q.explanation}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateSubmitButton();
+        }
+
+        function selectAnswer(questionId, optionIndex) {
+            if (showingResults) return;
+
+            answers[questionId] = optionIndex;
+
+            const card = document.getElementById(`question-${questionId}`);
+            const options = card.querySelectorAll('.option');
+            
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected');
+                if (idx === optionIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            const allAnswered = Object.keys(answers).length === questions.length;
+            submitBtn.disabled = !allAnswered;
+        }
+
+        function showResults() {
+            showingResults = true;
+            let score = 0;
+
+            questions.forEach(q => {
+                const card = document.getElementById(`question-${q.id}`);
+                const options = card.querySelectorAll('.option');
+                const statusIcon = document.getElementById(`status-${q.id}`);
+                const explanation = document.getElementById(`explanation-${q.id}`);
+
+                options.forEach((opt, idx) => {
+                    opt.classList.add('disabled');
+                    
+                    if (idx === q.correct) {
+                        opt.classList.add('correct');
+                    }
+                    
+                    if (answers[q.id] === idx && idx !== q.correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+
+                if (answers[q.id] === q.correct) {
+                    score++;
+                    statusIcon.innerHTML = '✓';
+                    statusIcon.style.color = '#28a745';
+                } else {
+                    statusIcon.innerHTML = '✗';
+                    statusIcon.style.color = '#dc3545';
+                }
+
+                explanation.classList.remove('hidden');
+            });
+
+            const percentage = ((score / questions.length) * 100).toFixed(1);
+            
+            document.getElementById('scoreDisplay').textContent = `${score} / ${questions.length}`;
+            document.getElementById('percentageDisplay').textContent = `${percentage}%`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🌟 ممتاز! أداء رائع!';
+            } else if (percentage >= 75) {
+                message = '👍 جيد جداً! استمر في التعلم';
+            } else if (percentage >= 60) {
+                message = '✓ جيد، لكن يمكنك التحسن';
+            } else {
+                message = '📚 راجع المادة مرة أخرى';
+            }
+            
+            document.getElementById('messageDisplay').textContent = message;
+            document.getElementById('resultsBox').classList.remove('hidden');
+            document.getElementById('instructions').classList.add('hidden');
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('resetBtn').classList.remove('hidden');
+
+            // Save result
+            loadResults();
+            const newResult = {
+                name: studentName,
+                score: score,
+                total: questions.length,
+                percentage: parseFloat(percentage),
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            results.push(newResult);
+            saveResults();
+            loadLeaderboard();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadLeaderboard() {
+            loadResults();
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            const leaderboard = document.getElementById('leaderboard');
+            
+            if (results.length === 0) {
+                leaderboard.classList.add('hidden');
+                return;
+            }
+
+            leaderboard.classList.remove('hidden');
+            
+            // Sort by percentage (highest first)
+            const sortedResults = [...results].sort((a, b) => b.percentage - a.percentage);
+            
+            leaderboardBody.innerHTML = '';
+            
+            sortedResults.forEach((result, index) => {
+                const row = document.createElement('tr');
+                
+                let rankDisplay = index + 1;
+                if (index === 0) rankDisplay = '<span class="rank-medal">🥇</span>' + rankDisplay;
+                else if (index === 1) rankDisplay = '<span class="rank-medal">🥈</span>' + rankDisplay;
+                else if (index === 2) rankDisplay = '<span class="rank-medal">🥉</span>' + rankDisplay;
+                
+                row.innerHTML = `
+                    <td>${rankDisplay}</td>
+                    <td><strong>${result.name}</strong></td>
+                    <td><span class="score-badge">${result.score}/${result.total}</span></td>
+                    <td><strong>${result.percentage}%</strong></td>
+                    <td>${result.date}</td>
+                `;
+                
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        function resetQuiz() {
+            answers = {};
+            showingResults = false;
+            studentName = '';
+            
+            document.getElementById('resultsBox').classList.add('hidden');
+            document.getElementById('instructions').classList.remove('hidden');
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('resetBtn').classList.add('hidden');
+            document.getElementById('nameInputBox').classList.remove('hidden');
+            document.getElementById('questionsContainer').innerHTML = '';
+            document.getElementById('studentName').value = '';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load leaderboard on page load
+        window.onload = function() {
+            loadLeaderboard();
+        };
+    </script>
+</body>
+</html>

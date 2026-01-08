@@ -1,722 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار السلامة البيولوجية المهنية - المحاضرة 2</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-        }
-
-        .header h2 {
-            color: #666;
-            font-size: 1.2em;
-            font-weight: normal;
-            margin-bottom: 5px;
-        }
-
-        .header h3 {
-            color: #888;
-            font-size: 1em;
-            font-weight: normal;
-        }
-
-        .instructions {
-            background: rgba(255,255,255,0.95);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            color: #555;
-        }
-
-        .name-input-box {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .name-input-box h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .name-input-box p {
-            color: #888;
-            margin-bottom: 20px;
-            font-size: 0.95em;
-        }
-
-        .name-input-box input {
-            width: 100%;
-            max-width: 400px;
-            padding: 15px;
-            font-size: 1.1em;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .name-input-box input:focus {
-            outline: none;
-            border-color: #764ba2;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
-        }
-
-        .results-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .results-box h3 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-
-        .results-box .score {
-            font-size: 3em;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-
-        .results-box .percentage {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .results-box .message {
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
-
-        .leaderboard {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .leaderboard h3 {
-            color: #667eea;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .leaderboard-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-            text-align: right;
-            font-size: 1.1em;
-        }
-
-        .leaderboard-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            text-align: right;
-        }
-
-        .leaderboard-table tr:hover {
-            background: #f8f9ff;
-        }
-
-        .rank-medal {
-            font-size: 1.5em;
-            margin-left: 10px;
-        }
-
-        .score-badge {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .question-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .question-number {
-            background: #667eea;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .question-text {
-            flex: 1;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        .question-translation {
-            color: #666;
-            font-size: 0.95em;
-            font-weight: normal;
-            margin-top: 8px;
-            font-style: italic;
-        }
-
-        .status-icon {
-            width: 30px;
-            height: 30px;
-            flex-shrink: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .options {
-            margin-right: 55px;
-        }
-
-        .option {
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .option:hover:not(.disabled) {
-            background: #f8f9ff;
-            border-color: #667eea;
-            transform: translateX(-5px);
-        }
-
-        .option.selected {
-            background: #e8eeff;
-            border-color: #667eea;
-        }
-
-        .option.correct {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .option.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-        }
-
-        .option.disabled {
-            cursor: default;
-        }
-
-        .option-label {
-            font-weight: bold;
-            color: #666;
-            display: inline-block;
-            min-width: 25px;
-        }
-
-        .option-text {
-            color: #333;
-            display: block;
-            margin-top: 5px;
-        }
-
-        .option-translation {
-            color: #888;
-            font-size: 0.9em;
-            font-style: italic;
-            display: block;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #eee;
-        }
-
-        .explanation {
-            margin: 20px 0 0 55px;
-            padding: 15px;
-            background: #e8f4fd;
-            border-right: 4px solid #2196F3;
-            border-radius: 8px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .explanation strong {
-            color: #2196F3;
-        }
-
-        .button-container {
-            text-align: center;
-            margin: 40px 0;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .btn-success:hover:not(:disabled) {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.6em;
-            }
-            
-            .header h2 {
-                font-size: 1em;
-            }
-
-            .question-header {
-                flex-wrap: wrap;
-            }
-
-            .options {
-                margin-right: 0;
-            }
-
-            .explanation {
-                margin-right: 0;
-            }
-
-            .leaderboard-table {
-                font-size: 0.9em;
-            }
-
-            .leaderboard-table th,
-            .leaderboard-table td {
-                padding: 10px 8px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🔬 اختبار السلامة البيولوجية المهنية</h1>
-            <h2>Occupational Biosafety Quiz - Lecture 2</h2>
-            <h3>قسم التحليلات - الفصل الأول 2025-2026</h3>
-            <div class="instructions" id="instructions">
-                <p>📝 أدخل اسمك (اختياري) وأجب على جميع الأسئلة ثم اضغط على "عرض النتائج"</p>
-            </div>
-        </div>
-
-        <div id="nameInputBox" class="name-input-box">
-            <h3>👤 مرحباً بك في الاختبار</h3>
-            <p>إدخال الاسم اختياري - يمكنك البدء مباشرة أو كتابة اسمك</p>
-            <input type="text" id="studentName" placeholder="اسمك (اختياري)..." maxlength="50">
-            <br>
-            <button class="btn" onclick="startQuiz()">ابدأ الاختبار</button>
-        </div>
-
-        <div id="leaderboard" class="leaderboard hidden">
-            <h3><span>🏆</span> لوحة الصدارة</h3>
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>الترتيب</th>
-                        <th>الاسم</th>
-                        <th>الدرجة</th>
-                        <th>النسبة المئوية</th>
-                        <th>التاريخ</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboardBody">
-                </tbody>
-            </table>
-        </div>
-
-        <div id="resultsBox" class="results-box hidden">
-            <h3>🎯 النتيجة النهائية</h3>
-            <div class="score" id="scoreDisplay"></div>
-            <div class="percentage" id="percentageDisplay"></div>
-            <div class="message" id="messageDisplay"></div>
-        </div>
-
-        <div id="questionsContainer"></div>
-
-        <div class="button-container">
-            <button id="submitBtn" class="btn btn-success hidden" onclick="showResults()">
-                ✓ عرض النتائج
-            </button>
-            <button id="resetBtn" class="btn hidden" onclick="resetQuiz()">
-                🔄 إعادة الاختبار
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const questions = [
-            {
-                id: 1,
-                question: "What is Biosafety?",
-                questionAr: "ما هي السلامة البيولوجية؟",
-                options: [
-                    "A set of principles to protect only workers from biological hazards",
-                    "A set of principles, practices, and procedures designed to protect human health and the environment from risks associated with hazardous biological agents",
-                    "Rules for handling only chemical substances",
-                    "Guidelines for industrial safety only"
-                ],
-                optionsAr: [
-                    "مجموعة من المبادئ لحماية العمال فقط من المخاطر البيولوجية",
-                    "مجموعة من المبادئ والممارسات والإجراءات المصممة لحماية صحة الإنسان والبيئة من المخاطر المرتبطة بالكائنات البيولوجية الخطرة",
-                    "قواعد للتعامل مع المواد الكيميائية فقط",
-                    "إرشادات للسلامة الصناعية فقط"
-                ],
-                correct: 1,
-                explanation: "السلامة البيولوجية هي مجموعة شاملة من المبادئ والممارسات والإجراءات المصممة لحماية صحة الإنسان والبيئة من المخاطر المرتبطة بالتعامل مع الكائنات الحية الدقيقة الخطرة مثل البكتيريا والفيروسات والفطريات."
-            },
-            {
-                id: 2,
-                question: "Which of the following is NOT a principle of Biosafety?",
-                questionAr: "أي مما يلي ليس من مبادئ السلامة البيولوجية؟",
-                options: [
-                    "Identifying biological hazards",
-                    "Implementing safe work practices",
-                    "Ignoring waste disposal procedures",
-                    "Controlling the laboratory environment"
-                ],
-                optionsAr: [
-                    "تحديد المخاطر البيولوجية",
-                    "تطبيق ممارسات العمل الآمنة",
-                    "تجاهل إجراءات التخلص من النفايات",
-                    "السيطرة على بيئة المختبر"
-                ],
-                correct: 2,
-                explanation: "تجاهل إجراءات التخلص من النفايات ليس من مبادئ السلامة البيولوجية، بل على العكس، التخلص الآمن من النفايات البيولوجية هو أحد المبادئ الأساسية والضرورية."
-            },
-            {
-                id: 3,
-                question: "What does PPE stand for?",
-                questionAr: "ماذا يعني اختصار PPE؟",
-                options: [
-                    "Public Protection Equipment",
-                    "Personal Protective Equipment",
-                    "Professional Prevention Equipment",
-                    "Primary Protection Elements"
-                ],
-                optionsAr: [
-                    "معدات الحماية العامة",
-                    "معدات الحماية الشخصية",
-                    "معدات الوقاية المهنية",
-                    "عناصر الحماية الأساسية"
-                ],
-                correct: 1,
-                explanation: "PPE تعني معدات الحماية الشخصية (Personal Protective Equipment) وتشمل الأقنعة، القفازات، النظارات الواقية، المعاطف المخبرية وغيرها من المعدات التي تحمي الفرد."
-            },
-            {
-                id: 4,
-                question: "What are occupational diseases?",
-                questionAr: "ما هي الأمراض المهنية؟",
-                options: [
-                    "Diseases that occur randomly",
-                    "Genetic diseases only",
-                    "Diseases that occur because of continuous or repeated exposure to environmental or occupational factors in the workplace",
-                    "Only infectious diseases"
-                ],
-                optionsAr: [
-                    "أمراض تحدث بشكل عشوائي",
-                    "أمراض وراثية فقط",
-                    "أمراض تحدث نتيجة التعرض المستمر أو المتكرر لعوامل بيئية أو مهنية في مكان العمل",
-                    "أمراض معدية فقط"
-                ],
-                correct: 2,
-                explanation: "الأمراض المهنية هي الأمراض التي تحدث نتيجة التعرض المستمر أو المتكرر لعوامل بيئية أو مهنية في مكان العمل، ويمكن أن تؤثر على صحة العامل بتأثيرات طويلة الأجل."
-            },
-            {
-                id: 5,
-                question: "Chemical poisoning occurs when:",
-                questionAr: "يحدث التسمم الكيميائي عندما:",
-                options: [
-                    "A person eats contaminated food",
-                    "A person inhales toxic fumes or industrial gases",
-                    "A person drinks contaminated water",
-                    "A person touches cold surfaces"
-                ],
-                optionsAr: [
-                    "يأكل الشخص طعامًا ملوثًا",
-                    "يستنشق الشخص أبخرة سامة أو غازات صناعية",
-                    "يشرب الشخص ماءً ملوثًا",
-                    "يلمس الشخص أسطحًا باردة"
-                ],
-                correct: 1,
-                explanation: "التسمم الكيميائي يحدث عندما يستنشق الشخص أبخرة سامة أو غازات صناعية، مما يؤدي إلى تأثيرات ضارة على الجهاز التنفسي والصحة العامة."
-            },
-            {
-                id: 6,
-                question: "Occupational asthma results from:",
-                questionAr: "ينتج الربو المهني من:",
-                options: [
-                    "Genetic factors only",
-                    "Continuous exposure to chemicals or dust",
-                    "Eating unhealthy food",
-                    "Lack of exercise"
-                ],
-                optionsAr: [
-                    "عوامل وراثية فقط",
-                    "التعرض المستمر للمواد الكيميائية أو الغبار",
-                    "تناول طعام غير صحي",
-                    "قلة ممارسة الرياضة"
-                ],
-                correct: 1,
-                explanation: "الربو المهني ينتج من التعرض المستمر للمواد الكيميائية أو الغبار في بيئة العمل، ويمكن أن يسبب صعوبة في التنفس وأعراض تنفسية مزمنة."
-            },
-            {
-                id: 7,
-                question: "Which of the following is an example of skin occupational diseases?",
-                questionAr: "أي مما يلي مثال على أمراض الجلد المهنية؟",
-                options: [
-                    "Occupational asthma",
-                    "Occupational eczema",
-                    "Chronic bronchitis",
-                    "Hearing loss"
-                ],
-                optionsAr: [
-                    "الربو المهني",
-                    "الإكزيما المهنية",
-                    "التهاب الشعب الهوائية المزمن",
-                    "فقدان السمع"
-                ],
-                correct: 1,
-                explanation: "الإكزيما المهنية هي من أمراض الجلد المهنية وتنجم عن التعرض المباشر للمواد الكيميائية أو المنظفات القوية في بيئة العمل."
-            },
-            {
-                id: 8,
-                question: "Occupational hearing loss can result from:",
-                questionAr: "يمكن أن ينتج فقدان السمع المهني من:",
-                options: [
-                    "Exposure to bright lights",
-                    "Exposure to loud noise for a long time",
-                    "Working in cold environments",
-                    "Sitting for long periods"
-                ],
-                optionsAr: [
-                    "التعرض للأضواء الساطعة",
-                    "التعرض للضوضاء العالية لفترة طويلة",
-                    "العمل في بيئات باردة",
-                    "الجلوس لفترات طويلة"
-                ],
-                correct: 1,
-                explanation: "فقدان السمع المهني ينجم عن التعرض لفترة طويلة للضوضاء العالية في مكان العمل مثل الآلات الصناعية والمعدات الصاخبة."
-            },
-            {
-                id: 9,
-                question: "Long-term workplace exposure to benzene can cause:",
-                questionAr: "التعرض طويل الأمد للبنزين في مكان العمل يمكن أن يسبب:",
-                options: [
-                    "Skin diseases only",
-                    "Damage to bone marrow leading to blood cancers",
-                    "Hearing loss",
-                    "Vision problems"
-                ],
-                optionsAr: [
-                    "أمراض الجلد فقط",
-                    "ضرر لنخاع العظم مما يؤدي إلى سرطانات الدم",
-                    "فقدان السمع",
-                    "مشاكل في الرؤية"
-                ],
-                correct: 1,
-                explanation: "التعرض طويل الأمد للبنزين في مكان العمل يمكن أن يسبب ضررًا خطيرًا لنخاع العظم، مما قد يؤدي إلى الإصابة بسرطانات الدم مثل اللوكيميا."
-            },
-            {
-                id: 10,
-                question: "Asbestos exposure is strongly linked to:",
-                questionAr: "يرتبط التعرض للأسبستوس بقوة بـ:",
-                options: [
-                    "Diabetes",
-                    "Mesothelioma and lung cancer",
-                    "Heart diseases",
-                    "Kidney failure"
-                ],
-                optionsAr: [
-                    "مرض السكري",
-                    "ورم الظهارة المتوسطة وسرطان الرئة",
-                    "أمراض القلب",
-                    "الفشل الكلوي"
-                ],
-                correct: 1,
-                explanation: "يرتبط التعرض للأسبستوس بقوة بورم الظهارة المتوسطة (Mesothelioma) في الرئة أو البطن، كما يزيد بشكل كبير من خطر الإصابة بسرطان الرئة."
-            },
-            {
-                id: 11,
-                question: "What does IARC stand for?",
-                questionAr: "ماذا يعني اختصار IARC؟",
-                options: [
-                    "International Agency for Research on Cancer",
-                    "International Association for Respiratory Care",
-                    "Industrial Agency for Risk Control",
-                    "International Alliance for Radiation Control"
-                ],
-                optionsAr: [
-                    "الوكالة الدولية لأبحاث السرطان",
-                    "الجمعية الدولية للرعاية التنفسية",
-                    "الوكالة الصناعية لمراقبة المخاطر",
-                    "التحالف الدولي لمراقبة الإشعاع"
-                ],
-                correct: 0,
-                explanation: "IARC تعني الوكالة الدولية لأبحاث السرطان (International Agency for Research on Cancer)، وهي وكالة تابعة لمنظمة الصحة العالمية متخصصة في أبحاث السرطان."
-            },
-            {
-                id: 12,
-                question: "Occupational depression can result from:",
-                questionAr: "يمكن أن ينجم الاكتئاب المهني من:",
-                options: [
-                    "Working in well-ventilated areas",
-                    "A high-pressure work environment or continuous work-related stress",
-                    "Using protective equipment",
-                    "Taking regular breaks"
-                ],
-                optionsAr: [
-                    "العمل في مناطق جيدة التهوية",
-                    "بيئة عمل عالية الضغط أو إجهاد مستمر متعلق بالعمل",
-                    "استخدام معدات الحماية",
-                    "أخذ فترات راحة منتظمة"
-                ],
-                correct: 1,
-                explanation: "الاكتئاب المهني ينجم عن بيئة عمل عالية الضغط أو الإجهاد المرتبط بالعمل المستمر، مما يؤثر سلبًا على الصحة العقلية والجسدية للعامل."
-            },
-            {
-                id: 13,
-                question: "Which of the following is a preventive measure for occupational diseases?",
-                questionAr: "أي مما يلي يعتبر إجراء وقائي للأمراض المهنية؟",
-                options: [
-                    "Increasing working hours",
-                    "Improving ventilation in workplaces",
-                    "Removing all safety equipment",
-                    "Ignoring training programs"
-                ],
-                optionsAr: [
-                    "زيادة ساعات العمل",
-                    "تحسين التهوية في أماكن العمل",
-                    "إزالة جميع معدات السلامة",
-                    "تجاهل برامج التدريب"
-                ],
-                correct: 1,
-                explanation: "تحسين التهوية في أماكن العمل هو أحد تدابير الوقاية المهمة لتجنب الأمراض المهنية، حيث يساعد على تقليل تركيز الملوثات والغازات الضارة."
-            },
-            {
-                id: 14,
-                question: "The main objective of Biosafety is to:",
-                questionAr: "الهدف الرئيسي من السلامة البيولوجية هو:",
-                options: [
-                    "Increase production at any cost",
-                    "Reduce exposure to hazardous substances and ensure a safe working environment",
-                    "Replace all workers with machines",
-                    "Eliminate all biological materials from workplaces"
-                ],
-                optionsAr: [
-                    "زيادة الإنتاج بأي ثمن",
-                    "تقليل التعرض للمواد الخطرة وضمان بيئة عمل آمنة",
-                    "استبدال جميع العمال بالآلات",
-                    "القضاء على جميع المواد البيولوجية من أماكن العمل"
-                ],
-                correct: 1,
-                explanation: "الهدف الرئيسي من السلامة البيولوجية هو تقليل التعرض للمواد الخطرة، وضمان بيئة عمل آمنة، ومنع انتشار الأمراض أو التلوث مع الحفاظ على التوازن البيئي."
-            },
-            {
-                id: 15,
-                question: "Chronic bronchitis is:",
-                questionAr: "التهاب الشعب الهوائية المزمن هو:",
-                options: [
-                    "A short-term infection",
-                    "A long-term inflammation of the airways from repeated exposure to dust, fumes, or chemical irritants",
-                    "A genetic disorder",
-                    "A viral disease"
-                ],
-                optionsAr: [
-                    "عدوى قصيرة الأمد",
-                    "التهاب طويل الأمد في مجاري التنفس من التعرض المتكرر للغبار أو الأبخرة أو المهيجات الكيميائية",
-                    "اضط

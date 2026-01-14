@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار محاضرات الأحياء - قسم التحليلات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #888;
+            margin-top: 15px;
+        }
+
+        .results-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .results-box.show {
+            display: block;
+        }
+
+        .results-box h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .results-box .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .results-box .percentage {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .results-box .message {
+            font-size: 1.3em;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-right: 55px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover:not(.disabled) {
+            background: #f8f9ff;
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .option.selected {
+            background: #e8eeff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .option-label {
+            font-weight: bold;
+            color: #666;
+            min-width: 25px;
+        }
+
+        .option-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: none;
+        }
+
+        .btn-reset.show {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .header h2 {
+                font-size: 1em;
+            }
+
+            .question-header {
+                flex-wrap: wrap;
+            }
+
+            .options {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 اختبار محاضرات الأحياء</h1>
+            <h2>Biology Lectures Quiz</h2>
+            <p>قسم التحليلات - الفصل الأول 2025-2026</p>
+        </div>
+
+        <div id="resultsBox" class="results-box">
+            <h3>🎯 النتيجة النهائية</h3>
+            <div class="score" id="scoreDisplay"></div>
+            <div class="percentage" id="percentageDisplay"></div>
+            <div class="message" id="messageDisplay"></div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="button-container">
+            <button id="submitBtn" class="btn" onclick="submitQuiz()">
+                ✓ عرض النتائج
+            </button>
+            <button id="resetBtn" class="btn btn-reset" onclick="resetQuiz()">
+                🔄 إعادة الاختبار
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "He observed cells dividing and giving rise to daughter cells:",
+                options: ["Matthias Schleiden", "Theodor Schwann", "Rudolf Virchow", "August Weismann"],
+                correct: 2
+            },
+            {
+                question: "The movement of molecules from higher concentration to lower concentration:",
+                options: ["Diffusion", "Osmosis", "Facilitated Transport", "Active Transport"],
+                correct: 0
+            },
+            {
+                question: "The movement of water across a semipermeable membrane:",
+                options: ["Facilitated Transport", "Active Transport", "Diffusion", "Osmosis"],
+                correct: 3
+            },
+            {
+                question: "Glucose transporters are an example of:",
+                options: ["Osmosis", "Active Transport", "Facilitated Transport", "Diffusion"],
+                correct: 2
+            },
+            {
+                question: "Usually, cells take up small molecules and fluid and then the process is called:",
+                options: ["Endocytosis", "Pinocytosis", "Exocytosis", "phagocytosis"],
+                correct: 1
+            },
+            {
+                question: "Consists of a stack of slightly curved saccules:",
+                options: ["Ribosomes", "Golgi Apparatus", "Lysosomes", "The Endoplasmic Reticulum"],
+                correct: 1
+            },
+            {
+                question: "Found in all cells of the body but are particularly numerous in white blood cells:",
+                options: ["Ribosomes", "Microfilaments", "Golgi Apparatus", "Lysosomes"],
+                correct: 3
+            },
+            {
+                question: "Are tiny rods of the protein actin that form meshworks or bundles:",
+                options: ["Microtubules", "Microfilaments", "Centrioles", "Intermediate filaments"],
+                correct: 1
+            },
+            {
+                question: "Support the inner surface of the membranous envelope:",
+                options: ["Protein actin", "Protein tubulin", "Lamin proteins", "Keratin proteins"],
+                correct: 2
+            },
+            {
+                question: "Is an adhesive protein that binds to a protein in the plasma membrane:",
+                options: ["Protein actin", "Protein tubulin", "Fibronectin", "Keratin proteins"],
+                correct: 2
+            },
+            {
+                question: "Monosaccharides include the five-carbon sugars:",
+                options: ["deoxyribose ديوكسي ريبوز", "dextrose الدكستروز", "fructose الفركتوز", "Sucrose السكروز"],
+                correct: 0
+            },
+            {
+                question: "Cholesterol from? الكوليسترول من",
+                options: ["Carbohydrates الكربوهيدرات", "Proteins البروتينات", "Lipids الدهون", "Vitamins الفيتامينات"],
+                correct: 2
+            },
+            {
+                question: "Of Deficiency it is Pernicious anemia من أسباب النقص فقر الدم الخبيث:",
+                options: ["B6 (pyridoxine)", "B12 (cyanocobalamin)", "B3 (niacin)", "B2 (riboflavin)"],
+                correct: 1
+            },
+            {
+                question: "Of Deficiency Rickets من أسباب النقص الكساح:",
+                options: ["Vitamin D", "Vitamins KK", "Vitamin E", "Vitamin C"],
+                correct: 0
+            },
+            {
+                question: "Of Deficiency it is metabolic problems and diarrhea:",
+                options: ["Copper (Cu)", "Cobalt (Co)", "Zinc (Zn)", "Sodium (Na)"],
+                correct: 2
+            },
+            {
+                question: "Of Deficiency it is Pernicious anemia:",
+                options: ["Iodine (I)", "Iron (Fe)", "Cobalt (Co)", "Chlorine (Cl)"],
+                correct: 2
+            },
+            {
+                question: "They are good of fiber and a great protein source as well:",
+                options: ["dry beans الفاصوليا الجافه", "Potatoes", "corn", "poultry"],
+                correct: 0
+            },
+            {
+                question: "Nerve disorders, blood vessel dilation and heart rhythm problems are indicative of deficiencies in:",
+                options: ["Magnesium (Mg)", "Manganese (Mn)", "Phosphorus (P)", "Potassium (K)"],
+                correct: 0
+            },
+            {
+                question: "The atomic number gives the:",
+                options: ["Number of neutrons", "Number of protons in the nucleus", "Weight of the atom", "Number of electrons"],
+                correct: 1
+            },
+            {
+                question: "Which type of bond results from the complete transfer of electrons from one atom to another?",
+                options: ["Covalent bonds", "Ionic bonds", "Hydrogen bonds", "Neutral bonds"],
+                correct: 1
+            },
+            {
+                question: "Without it, proteins and carbohydrates of your body would fall apart:",
+                options: ["Hydrogen bonds", "Covalent bonds", "Neutral bonds", "Ionic bonds"],
+                correct: 0
+            },
+            {
+                question: "Giving water a weak glue like quality that helps hold your body together:",
+                options: ["Neutral bonds", "Ionic bonds", "Hydrogen bonds", "Covalent bonds"],
+                correct: 2
+            },
+            {
+                question: "Example of other weak attractions:",
+                options: ["Covalent bonds", "Hydrogen bonds", "Van der Waals bonds", "Ionic bonds"],
+                correct: 2
+            },
+            {
+                question: "The correct order of taxonomic groups from higher to lower rank is?",
+                options: [
+                    "Kingdom—Order—Class—Family",
+                    "Order—Class—Division—Family—Genus—Species",
+                    "Kingdom—Order—Division—Family—Class—Genus—Species",
+                    "Kingdom—Division—Class—Order—Family—Genus—Species"
+                ],
+                correct: 3
+            },
+            {
+                question: "All of the organisms in a given area plus all of the nonliving matter and energy:",
+                options: ["Population", "Community", "Ecosystem", "Biosphere"],
+                correct: 2
+            },
+            {
+                question: "The right and left thoracic compartments, which contain the lungs, are lined with:",
+                options: ["pericardium", "parietal pleura", "peritoneal", "visceral pleural"],
+                correct: 1
+            },
+            {
+                question: "All of them are defining features of humans except:",
+                options: ["Bipedalism", "Opposable thumbs", "Capacity for complex language", "Our eyesight and hearing are the best"],
+                correct: 3
+            },
+            {
+                question: "Extracellular fluid includes except:",
+                options: ["the blood", "the plasma", "the interstitial fluid", "intracellular fluid"],
+                correct: 3
+            },
+            {
+                question: "Smaller cavities within the head include the following except:",
+                options: ["Oral cavity", "Nasal cavity", "Orbital cavities", "The cranial cavity"],
+                correct: 3
+            },
+            {
+                question: "Is an adhesive protein that binds to a protein in the plasma membrane:",
+                options: ["Protein actin", "Protein tubulin", "Fibronectin", "Keratin proteins"],
+                correct: 2
+            }
+        ];
+
+        let userAnswers = {};
+        let quizSubmitted = false;
+
+        function renderQuiz() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHTML += `
+                        <div class="option" data-question="${index}" data-option="${optIndex}">
+                            <span class="option-label">${String.fromCharCode(65 + optIndex)}.</span>
+                            <span class="option-text">${option}</span>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${q.question}</div>
+                        <div class="status-icon" id="status-${index}"></div>
+                    </div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleOptionClick);
+            });
+
+            updateSubmitButton();
+        }
+
+        function handleOptionClick(e) {
+            if (quizSubmitted) return;
+
+            const option = e.currentTarget;
+            const questionIndex = parseInt(option.dataset.question);
+            const optionIndex = parseInt(option.dataset.option);
+
+            const allOptions = document.querySelectorAll(`[data-question="${questionIndex}"]`);
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            option.classList.add('selected');
+            userAnswers[questionIndex] = optionIndex;
+
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = Object.keys(userAnswers).length !== quizData.length;
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            let score = 0;
+
+            quizData.forEach((q, index) => {
+                const allOptions = document.querySelectorAll(`[data-question="${index}"]`);
+                const statusIcon = document.getElementById(`status-${index}`);
+
+                allOptions.forEach((option, optIndex) => {
+                    option.classList.add('disabled');
+                    
+                    if (optIndex === q.correct) {
+                        option.classList.add('correct');
+                    }
+                    
+                    if (userAnswers[index] === optIndex && optIndex !== q.correct) {
+                        option.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswers[index] === q.correct) {
+                    score++;
+                    statusIcon.innerHTML = '✓';
+                    statusIcon.style.color = '#28a745';
+                } else {
+                    statusIcon.innerHTML = '✗';
+                    statusIcon.style.color = '#dc3545';
+                }
+            });
+
+            const percentage = ((score / quizData.length) * 100).toFixed(1);
+            
+            document.getElementById('scoreDisplay').textContent = `${score} / ${quizData.length}`;
+            document.getElementById('percentageDisplay').textContent = `${percentage}%`;
+            
+            let message = '';
+            if (percentage < 50) {
+                message = 'خويه شوفلك واحد تغش منه 🙏🏻';
+            } else if (percentage >= 50 && percentage < 65) {
+                message = 'وضعك تمام المهم مارسبت ، يلا روح كمل مراجعة';
+            } else {
+                message = 'شعحب خوش قاري اليوم 🤨';
+            }
+            
+            document.getElementById('messageDisplay').textContent = message;
+            document.getElementById('resultsBox').classList.add('show');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('resetBtn').classList.add('show');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            quizSubmitted = false;
+            
+            document.getElementById('resultsBox').classList.remove('show');
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('resetBtn').classList.remove('show');
+            
+            renderQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
